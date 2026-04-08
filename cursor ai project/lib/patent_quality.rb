@@ -12,7 +12,7 @@ module PatentQuality
     data = (data || {}).transform_keys(&:to_s)
     application_type = (data["applicationType"] || "utility").to_s
 
-    missing = REQUIRED_KEYS.filter_map { |k| data[k].to_s.strip.empty? ? k : nil }
+    missing = REQUIRED_KEYS.select { |k| data[k].to_s.strip.empty? }
     missing = missing.reject { |k| k == "keyComponents" || k == "processSteps" } # handled by separate rubric
 
     components = split_lines(data["keyComponents"])
