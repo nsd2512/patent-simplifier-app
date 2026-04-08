@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Patent Creation Assistant</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>Patent Creation Assistant</h1>
+        <p class="subtle">Draft a structured US provisional/utility scaffold from plain-text ideas + generate block diagrams + prior-art search (optional).</p>
+      </header>
+
+      <section class="card">
+        <h2>1) Enter your idea</h2>
+        <div class="grid">
+          <label>
+            Application type
+            <select id="applicationType">
+              <option value="provisional">US Provisional</option>
+              <option value="utility" selected>US Utility</option>
+            </select>
+          </label>
+
+          <label>
+            Invention title
+            <input id="title" type="text" placeholder="e.g., A device for ..." />
+          </label>
+        </div>
+
+        <label>
+          Summary (problem + solution)
+          <textarea id="summary" rows="5" placeholder="Write 3-6 sentences."></textarea>
+        </label>
+
+        <label>
+          How it works (enabling description)
+          <textarea id="howItWorks" rows="6" placeholder="Explain components and steps."></textarea>
+        </label>
+
+        <div class="grid2">
+          <label>
+            Key components (one per line)
+            <textarea id="keyComponents" rows="6" placeholder="Controller / Sensor / Module ..."></textarea>
+          </label>
+
+          <label>
+            Process steps (one per line)
+            <textarea id="processSteps" rows="6" placeholder="Step 1 ...&#10;Step 2 ..."></textarea>
+          </label>
+        </div>
+
+        <div class="grid2">
+          <label>
+            Use cases / benefits (optional; one per line)
+            <textarea id="useCases" rows="4" placeholder="e.g., reduces cost, improves accuracy ..."></textarea>
+          </label>
+
+          <label>
+            External sources (optional; one URL per line)
+            <textarea id="externalSources" rows="4" placeholder="https://..."></textarea>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button id="generateBtn" class="primary" type="button">Generate Draft</button>
+        </div>
+
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="card" id="results" style="display:none;">
+        <h2>2) Assessment</h2>
+        <div class="split">
+          <div>
+            <div class="badge" id="scoreBadge">Score: -</div>
+            <div id="gradeText" class="muted">Grade: -</div>
+          </div>
+          <div>
+            <h3>Feedback</h3>
+            <ul id="feedbackList" class="list"></ul>
+          </div>
+        </div>
+
+        <h3>Checklist</h3>
+        <ul id="checklist" class="list"></ul>
+
+        <hr class="hr" />
+
+        <h2>3) Draft (print/export-ready)</h2>
+        <div class="actions">
+          <button id="printDraftBtn" class="ghost" type="button">Print Draft</button>
+          <button id="downloadHtmlBtn" class="ghost" type="button">Download HTML</button>
+        </div>
+
+        <iframe id="draftFrame" title="Draft preview" class="draftFrame"></iframe>
+
+        <hr class="hr" />
+
+        <h2>4) Block diagram</h2>
+        <div class="actions">
+          <button id="renderMermaidBtn" class="ghost" type="button">Render Mermaid</button>
+        </div>
+        <pre id="mermaidSource" class="code"></pre>
+        <div id="mermaidOutput" class="mermaid"></div>
+
+        <hr class="hr" />
+
+        <h2>5) Prior-art search</h2>
+        <div class="split">
+          <div>
+            <div class="badge" id="riskBadge">Novelty risk: -</div>
+          </div>
+          <div id="searchConfigured" class="muted"></div>
+        </div>
+
+        <div id="searchResults"></div>
+      </section>
+    </div>
+
+    <script>
+      window.__mermaidInitialized = false;
+      if (window.mermaid) {
+        mermaid.initialize({ startOnLoad: false, theme: "default" });
+        window.__mermaidInitialized = true;
+      }
+    </script>
+    <script src="/app.js"></script>
+  </body>
+</html>
+
